@@ -49,3 +49,35 @@ path:line: 🔵 LOW:  <problem>. <fix>.
 
 CRIT: N  HIGH: N  MED: N  LOW: N
 ```
+
+---
+
+## How it works / Comment ça fonctionne
+
+**English**
+
+When you run `/mini-review`, the skill:
+1. **Detects the stack** — reads `package.json`, `go.mod`, `Cargo.toml`, etc. to know what tech is in use
+2. **Spawns 4 agents in parallel** — each agent has one job and works silently (no intermediate output)
+3. **Agents read your code** — using file read + grep tools; `security-scanner` and `best-practices` also run up to 2 web searches each to check current CVEs and stack best practices
+4. **Each agent returns a findings array** — `{path, line, severity, problem, fix}`
+5. **Results are merged** — duplicates removed, sorted by severity (CRIT → HIGH → MED → LOW)
+6. **Token budget enforced** — if total findings > 20, LOW findings are dropped to save tokens
+7. **With `--fix`** — CRIT and HIGH fixes are applied automatically, tests run if available
+
+Token cost: ~25k–45k per review (vs 100k–200k for a full verbose review).
+
+---
+
+**Français**
+
+Quand tu lances `/mini-review`, le skill :
+1. **Détecte le stack** — lit `package.json`, `go.mod`, `Cargo.toml`, etc. pour identifier les technos utilisées
+2. **Spawne 4 agents en parallèle** — chaque agent a un seul job et travaille en silence (aucun output intermédiaire)
+3. **Les agents lisent ton code** — via outils lecture fichier + grep ; `security-scanner` et `best-practices` font jusqu'à 2 recherches web chacun pour vérifier CVEs et bonnes pratiques actuelles
+4. **Chaque agent retourne un tableau de findings** — `{path, line, severity, problem, fix}`
+5. **Les résultats sont fusionnés** — doublons supprimés, triés par sévérité (CRIT → HIGH → MED → LOW)
+6. **Budget tokens appliqué** — si total findings > 20, les LOW sont supprimés pour économiser
+7. **Avec `--fix`** — les corrections CRIT et HIGH sont appliquées automatiquement, tests lancés si disponibles
+
+Coût tokens : ~25k–45k par revue (vs 100k–200k pour une revue verbose classique).
