@@ -4,10 +4,14 @@ Custom Claude Code skills.
 
 ## Install
 
-One command — works on Mac, Linux, Windows (Git Bash):
-
+**Mac / Linux / Windows Git Bash:**
 ```bash
 curl -sSL https://raw.githubusercontent.com/nik121212T/my-claude-skills/main/install.sh | bash
+```
+
+**Windows PowerShell (natif):**
+```powershell
+irm https://raw.githubusercontent.com/nik121212T/my-claude-skills/main/install.ps1 | iex
 ```
 
 Requires `git`. Restart Claude Code after install.
